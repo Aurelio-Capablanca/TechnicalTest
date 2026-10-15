@@ -30,7 +30,23 @@ public class CustomerController {
 
     @GetMapping(value = "/{identification}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GeneralResponse<Customer>> getCustomer(@PathVariable @Pattern(regexp = "^[0-9]+$") @Size(min = 8) String identification) {
-        return serviceImplementation.findByIdentification(identification);
+        final Optional<Customer> customerFound = serviceImplementation.findByIdentification(identification);
+        if (customerFound.isEmpty()) {
+            final GeneralResponse<Customer> response = GeneralResponse.<Customer>builder()
+                    .code("404")
+                    .message("No Data Found with the Id Submitted")
+                    .error("No Client found at Repository")
+                    .dataset(null)
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        final GeneralResponse<Customer> response = GeneralResponse.<Customer>builder()
+                .code("200")
+                .message("Success data found!")
+                .error(null)
+                .dataset(customerFound.get())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

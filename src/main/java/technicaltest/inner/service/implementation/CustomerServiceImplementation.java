@@ -19,25 +19,8 @@ public class CustomerServiceImplementation implements CustomerService {
 
 
     @Override
-    public ResponseEntity<GeneralResponse<Customer>>   findByIdentification(String identification) {
-        final Optional<Customer> customerFound = repositoryCustomer.findById(identification);
-        if (customerFound.isEmpty()) {
-            final GeneralResponse<Customer> response = GeneralResponse.<Customer>builder()
-                    .code("404")
-                    .message("No Data Found with the Id Submitted")
-                    .error("No Client found at Repository")
-                    .dataset(null)
-                    .build();
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        final GeneralResponse<Customer> response = GeneralResponse.<Customer>builder()
-                .code("200")
-                .message("Success data found!")
-                .error(null)
-                .dataset(customerFound.get())
-                .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public Optional<Customer>  findByIdentification(String identification) {
+       return repositoryCustomer.findById(identification);
     }
-
 
 }

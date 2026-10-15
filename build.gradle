@@ -27,7 +27,12 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor 'org.projectlombok:lombok'
 
+    //Validator
     implementation 'org.springframework.boot:spring-boot-starter-validation:4.1.1'
+
+    //Testing
+    testImplementation 'org.mockito:mockito-core:5.23.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.23.0'
 }
 
 tasks.named('test') {

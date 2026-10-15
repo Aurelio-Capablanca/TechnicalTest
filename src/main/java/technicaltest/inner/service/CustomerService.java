@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface CustomerService {
 
-    ResponseEntity<GeneralResponse<Customer>> findByIdentification(String identification);
+    Optional<Customer> findByIdentification(String identification);
 
 }
