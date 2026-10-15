@@ -1,5 +1,7 @@
 package technicaltest.outer.output.http;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +15,8 @@ import technicaltest.inner.model.response.GeneralResponse;
 import technicaltest.inner.service.CustomerService;
 import technicaltest.inner.service.implementation.CustomerServiceImplementation;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("api/v1/customers")
 @AllArgsConstructor
@@ -25,8 +29,8 @@ public class CustomerController {
 
 
     @GetMapping(value = "/{identification}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GeneralResponse<Customer>> getCustomer(@PathVariable String identification) {
-        return new ResponseEntity<>(new GeneralResponse(), HttpStatus.OK);
+    public ResponseEntity<GeneralResponse<Customer>> getCustomer(@PathVariable @Pattern(regexp = "^[0-9]+$") @Size(min = 8) String identification) {
+        return serviceImplementation.findByIdentification(identification);
     }
 
 
